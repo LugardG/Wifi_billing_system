@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+
+  <!-- Font Awesome & Charts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</head>
+
+<body class="light">
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <button id="toggle-btn" class="toggle-btn" aria-label="Toggle sidebar">
+    <i class="fa fa-bars"></i>
+  </button>
+  <h2>Admin Panel</h2>
+
+  <ul class="menu">
+    <li><a href="#" class="active" data-target="dashboardSection" data-tooltip="Dashboard" data-icon="🏠"><i class="fa fa-home"></i><span class="text">Dashboard</span></a></li>
+    <li><a href="#" data-target="customersSection" data-tooltip="Customers" data-icon="👥"><i class="fa fa-users"></i><span class="text">Customers</span></a></li>
+    <li><a href="#" data-target="paymentsSection" data-tooltip="Payments" data-icon="💳"><i class="fa fa-credit-card"></i><span class="text">Payments</span></a></li>
+    <li><a href="#" data-target="sessionsSection" data-tooltip="Sessions" data-icon="🔌"><i class="fa fa-network-wired"></i><span class="text">Sessions</span></a></li>
+    <li><a href="#" data-target="plansSection" data-tooltip="Plans" data-icon="📶"><i class="fa fa-wifi"></i><span class="text">Plans</span></a></li>
+    <li><a href="#" data-target="ticketsSection" data-tooltip="Tickets" data-icon="🎫"><i class="fa fa-ticket"></i><span class="text">Tickets</span></a></li>
+    <li><a href="#" data-target="reportsSection" data-tooltip="Reports" data-icon="📊"><i class="fa fa-chart-line"></i><span class="text">Reports</span></a></li>
+  </ul>
+
+  <div class="logout">
+    <a href="logout.php" onclick="return confirmLogout()" data-tooltip="Logout" data-icon="🔒">
+      <i class="fa fa-sign-out-alt"></i><span class="text">Logout</span>
+    </a>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<main class="main">
+  <div class="topbar">
+    <h2>Welcome, <?php echo htmlspecialchars($username); ?> 👋</h2>
+    <div class="theme-toggle-wrapper" title="Toggle theme">
+      <button class="theme-toggle" id="themeToggle"></button>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <section id="dashboardSection" class="section active">
+    <h1>Dashboard</h1>
+    <div class="cards">
+      <div class="card"><h3>Total Customers</h3><p id="totalCustomers">0</p></div>
+      <div class="card"><h3>Active Plans</h3><p id="activePlans">0</p></div>
+      <div class="card"><h3>Payments Today</h3><p id="paymentsToday">KES 0</p></div>
+      <div class="card"><h3>Active Sessions</h3><p id="activeSessions">0</p></div>
+    </div>
+  </section>
+
+  <!-- Customers -->
+  <section id="customersSection" class="section">
+    <h1>Customers</h1>
+    <table id="customersTable">
+      <thead><tr><th>Name</th><th>Plan</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- Payments -->
+  <section id="paymentsSection" class="section">
+    <h1>Payments</h1>
+    <table id="paymentsTable">
+      <thead><tr><th>Customer</th><th>Amount (KES)</th><th>Date</th><th>Method</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- Sessions -->
+  <section id="sessionsSection" class="section">
+    <h1>Sessions</h1>
+    <table id="sessionsTable">
+      <thead><tr><th>Customer</th><th>Device</th><th>Status</th><th>Expiry</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- Plans -->
+  <section id="plansSection" class="section">
+    <h1>Plans</h1>
+    <table id="plansTable">
+      <thead><tr><th>Name</th><th>Price (KES)</th><th>Duration (days)</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- Tickets -->
+  <section id="ticketsSection" class="section">
+    <h1>Support Tickets</h1>
+    <table id="ticketsTable">
+      <thead><tr><th>Ticket #</th><th>Customer #</th><th>Message</th><th>Category</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody>
+        <?php
+        $conn = new mysqli('localhost', 'root', '', 'famget');
+        if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+
+        $result = $conn->query("SELECT * FROM tickets ORDER BY id DESC");
+        if ($result && $result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+            echo "<tr>
+                    <td>{$row['ticket_number']}</td>
+                    <td>{$row['customer_number']}</td>
+                    <td>{$row['customer_msg']}</td>
+                    <td>{$row['category']}</td>
+                    <td>{$row['status']}</td>
+                    <td>
+                      <form method='POST' action='update_ticket_status.php'>
+                        <input type='hidden' name='ticket_number' value='{$row['ticket_number']}'>
+                        <select name='status'>
+                          <option value='pending' " . ($row['status'] == 'pending' ? 'selected' : '') . ">Pending</option>
+                          <option value='resolved' " . ($row['status'] == 'resolved' ? 'selected' : '') . ">Resolved</option>
+                        </select>
+                        <button type='submit'>Update</button>
+                      </form>
+                    </td>
+                  </tr>";
+          }
+        }
+        $conn->close();
+        ?>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Reports -->
+  <section id="reportsSection" class="section">
+    <h1>Reports</h1>
+    <div class="filters">
+      <label>From:</label><input type="date" id="startDate">
+      <label>To:</label><input type="date" id="endDate">
+      <label>Type:</label>
+      <select id="reportType">
+        <option value="daily">Daily</option>
+        <option value="weekly" selected>Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+      <button id="loadReport">Load Report</button>
+      <button id="downloadReport">Download PDF</button>
+    </div>
+    <table id="reportsTable">
+      <thead><tr><th>Customer</th><th>Amount (KES)</th><th>Date</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <canvas id="reportsChart" style="max-width:100%; height:400px; margin-top:20px;"></canvas>
+  </section>
+</main>
+
+<!-- Scripts -->
+<script src="admin.js?v=<?php echo time(); ?>"></script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WiFi Billing Portal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">🌐 WiFi Connect</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#plans">Plans</a>
+      <a href="#support">Support</a>
+      <button class="login-btn" onclick="openModal()">Login</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Fast, Reliable Internet</h1>
+      <p>Stay connected anytime, anywhere — choose a plan that fits your needs.</p>
+      <a href="#plans" class="btn">View Plans</a>
+    </div>
+  </section>
+
+  <section id="how-it-works" class="how-steps">
+    <div class="how-inner" style="max-width:1000px;margin:0 auto;padding:30px 16px;">
+      <h2 style="text-align:center;margin-bottom:12px;color:#00d4ff;">How Subscription Works</h2>
+      <div class="steps" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+        <div class="step" style="flex:1 1 220px;background:#111;padding:16px;border-radius:8px;text-align:left;">
+          <div style="font-weight:700;color:#00d4ff;font-size:18px;margin-bottom:6px;">1. Select a plan</div>
+          <div style="color:#ccc;">Pick an hourly, daily, weekly or monthly plan from the list below.</div>
+        </div>
+
+        <div class="step" style="flex:1 1 220px;background:#111;padding:16px;border-radius:8px;text-align:left;">
+          <div style="font-weight:700;color:#00d4ff;font-size:18px;margin-bottom:6px;">2. Enter phone & pay</div>
+          <div style="color:#ccc;">Provide your M-PESA phone number and complete the STK push payment on your phone.</div>
+        </div>
+
+        <div class="step" style="flex:1 1 220px;background:#111;padding:16px;border-radius:8px;text-align:left;">
+          <div style="font-weight:700;color:#00d4ff;font-size:18px;margin-bottom:6px;">3. Receive access code</div>
+          <div style="color:#ccc;">After payment is confirmed you'll get a username and a 4-digit access code to log in.</div>
+        </div>
+
+        <div class="step" style="flex:1 1 220px;background:#111;padding:16px;border-radius:8px;text-align:left;">
+          <div style="font-weight:700;color:#00d4ff;font-size:18px;margin-bottom:6px;">4. Login & connect</div>
+          <div style="color:#ccc;">Use the provided username and access code in the login box to get online.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plans" class="plans">
+    <h2>Our Subscription Plans</h2>
+
+  <!-- Hourly Plans -->
+  <h3 class="category">Hourly Plans</h3>
+    <div class="plan-container">
+      <div class="plan-card">
+        <h3>1 Hour Plan</h3>
+        <p class="price">KES 5</p>
+        <ul>
+          <li>Duration: 1 Hour</li>
+          <li>Device Limit: 1</li>
+        </ul>
+        <button onclick="subscribe('1 Hour Plan')">Subscribe</button>
+      </div>
+
+      <div class="plan-card">
+        <h3>3 Hour Plan</h3>
+        <p class="price">KES 9</p>
+        <ul>
+          <li>Duration: 3 Hours</li>
+          <li>Device Limit: 1</li>
+        </ul>
+        <button onclick="subscribe('3 Hour Plan')">Subscribe</button>
+      </div>
+
+      <div class="plan-card">
+        <h3>8 Hour Plan</h3>
+        <p class="price">KES 15</p>
+        <ul>
+          <li>Duration: 8 Hours</li>
+          <li>Device Limit: 1</li>
+        </ul>
+        <button onclick="subscribe('8 Hour Plan')">Subscribe</button>
+      </div>
+    </div>
+
+  <!-- Daily Plans -->
+  <h3 class="category">Daily Plans</h3>
+    <div class="plan-container">
+      <div class="plan-card">
+        <h3>Daily 1 Device</h3>
+        <p class="price">KES 35</p>
+        <ul>
+          <li>Duration: 24 Hours</li>
+          <li>Device Limit: 1</li>
+        </ul>
+        <button onclick="subscribe('Daily 1 Device')">Subscribe</button>
+      </div>
+
+      <div class="plan-card popular">
+        <h3>Daily 2 Devices</h3>
+        <p class="price">KES 50</p>
+        <ul>
+          <li>Duration: 24 Hours</li>
+          <li>Device Limit: 2</li>
+        </ul>
+        <button onclick="subscribe('Daily 2 Devices')">Subscribe</button>
+      </div>
+    </div>
+
+  <!-- Weekly Plans -->
+  <h3 class="category">Weekly Plans</h3>
+    <div class="plan-container">
+      <div class="plan-card">
+        <h3>Weekly 1 Device</h3>
+        <p class="price">KES 160</p>
+        <ul>
+          <li>Duration: 7 Days</li>
+          <li>Device Limit: 1</li>
+        </ul>
+        <button onclick="subscribe('Weekly 1 Device')">Subscribe</button>
+      </div>
+
+      <div class="plan-card">
+        <h3>Weekly 2 Devices</h3>
+        <p class="price">KES 300</p>
+        <ul>
+          <li>Duration: 7 Days</li>
+          <li>Device Limit: 2</li>
+        </ul>
+        <button onclick="subscribe('Weekly 2 Devices')">Subscribe</button>
+      </div>
+    </div>
+
+  <!-- Monthly Plans -->
+  <h3 class="category">Monthly Plans</h3>
+    <div class="plan-container">
+      <div class="plan-card">
+        <h3>Monthly 1 Device</h3>
+        <p class="price">KES 500</p>
+        <ul>
+          <li>Duration: 30 Days</li>
+          <li>Device Limit: 1</li>
+        </ul>
+        <button onclick="subscribe('Monthly 1 Device')">Subscribe</button>
+      </div>
+
+      <div class="plan-card popular">
+        <h3>Monthly 2 Devices</h3>
+        <p class="price">KES 700</p>
+        <ul>
+          <li>Duration: 30 Days</li>
+          <li>Device Limit: 2</li>
+        </ul>
+        <button onclick="subscribe('Monthly 2 Devices')">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER SUPPORT SECTION -->
+  <section id="support" class="support-section">
+    <div class="support-inner">
+      <div class="support-left">
+        <h2>Contact Support</h2>
+        <p>Need help? Our team is here to assist you anytime. Use any of the contact methods below and we’ll respond quickly.</p>
+
+        <ul class="support-list">
+          <li>
+            <a href="https://wa.me/254703378569?text=Hello%20Famget%20Technologies%2C%20I%20need%20help" target="_blank" rel="noopener">
+              <span class="icon">💬</span>
+              <span class="label">WhatsApp</span>
+              <span class="value">+254 703 378 569</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="tel:+254703378569">
+              <span class="icon">📞</span>
+              <span class="label">Call</span>
+              <span class="value">0703378569 <span class="whatsapp-small">💬</span></span>
+            </a>
+          </li>
+
+          <li>
+            <a href="mailto:famgettechnologies@gmail.com">
+              <span class="icon">✉️</span>
+              <span class="label">Email</span>
+              <span class="value">famgettechnologies@gmail.com</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="support-right">
+        <!-- small decorative card or FAQ quick links -->
+        <div class="quick-card">
+          <h3>Quick Help</h3>
+          <p>Billing questions, connection issues or access codes — message us on WhatsApp for fastest response.</p>
+          <a class="btn small" href="https://wa.me/254703378569?text=Hello%20Famget%20Technologies%2C%20I%20need%20help" target="_blank" rel="noopener">Chat on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 WiFi Connect. All rights reserved.</p>
+  </footer>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+      <button class="close" aria-label="Close login" onclick="closeModal()">&times;</button>
+      <h2 id="loginTitle">Login to Access WiFi</h2>
+      <p>Enter your access code to get connected</p>
+
+      <form id="loginForm" onsubmit="return loginUser()">
+        <label for="username">Username / Email</label>
+        <input type="text" id="username" placeholder="Enter username" required>
+
+        <label for="accessCode">Access Code</label>
+        <input type="text" id="accessCode" placeholder="Enter access code" required>
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SUPPORT POPUP (triggered by floating button) -->
+  <div id="supportPopup" class="support-popup" aria-hidden="true">
+    <div class="popup-content" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+      <button class="popup-close" aria-label="Close support" onclick="toggleSupportPopup(false)">&times;</button>
+      <h3 id="supportTitle">Contact Support</h3>
+      <p class="small-thanks">We’re here to assist you anytime — message or call us and we’ll respond quickly.</p>
+
+      <div class="popup-actions">
+        <a class="action wa" href="https://wa.me/254703378569?text=Hello%20Famget%20Technologies%2C%20I%20need%20help" target="_blank" rel="noopener">
+          <span class="a-icon">💬</span>
+          <span class="a-text">Chat on WhatsApp</span>
+        </a>
+
+        <a class="action call" href="tel:+254703378569">
+          <span class="a-icon">📞</span>
+          <span class="a-text">Call 0703378569</span>
+        </a>
+
+        <a class="action email" href="mailto:famgettechnologies@gmail.com">
+          <span class="a-icon">✉️</span>
+          <span class="a-text">Email Support</span>
+        </a>
+      </div>
+
+      <p class="note">Typical response time: within a few minutes via WhatsApp.</p>
+    </div>
+  </div>
+
+  <!-- FLOATING SUPPORT BUTTON -->
+  <button id="supportBtn" class="floating-support" aria-label="Open Contact Support" onclick="toggleSupportPopup(true)">
+    <span class="fb-icon">💬</span><span class="fb-icon">📞</span>
+  </button>
+
+  <!-- PAYMENT MODAL -->
+<div id="paymentModal" class="modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="paymentTitle">
+    <button class="close" aria-label="Close payment" onclick="closePaymentModal()">&times;</button>
+    <h2 id="paymentTitle">Complete Your Subscription</h2>
+    <p id="planSelected"></p>
+
+    <form id="paymentForm" onsubmit="return sendSTKPush(event)">
+      <label for="paymentPhone">Enter M-PESA Number (2547XXXXXXXX):</label>
+      <input type="tel" id="paymentPhone" placeholder="2547XXXXXXXX" required pattern="2547[0-9]{8}" />
+
+      <input type="hidden" id="selectedPlan" />
+
+      <button type="submit">Proceed to Pay</button>
+    </form>
+
+    <p class="note">You’ll receive an STK push on your phone. Enter your M-PESA PIN to complete the payment.</p>
+  </div>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>

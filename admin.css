@@ -1,0 +1,461 @@
+/* =========================================================
+   UPDATED ADMIN.CSS — WiFi Management Dashboard
+   Includes: Sidebar collapse, dark/light themes, smooth animations & full responsiveness
+   ========================================================= */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Navigation Buttons */
+.nav-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.nav-link.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.nav-link i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+/* Menu Items */
+.menu li {
+  list-style: none;
+  margin: 5px 0;
+}
+
+.menu li button {
+  width: 100%;
+  border-radius: 5px;
+}
+
+/* Loading Indicator */
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #666;
+}
+
+/* ==================== */
+/* Theme colors */
+/* ==================== */
+:root {
+  --bg-color-light: #f4f4f9;
+  --text-color-light: #1a1a2e;
+  --card-bg-light: #fff;
+
+  --bg-color-dark: #1a1a2e;
+  --text-color-dark: #f4f4f9;
+  --card-bg-dark: #2c2c44;
+
+  --primary-color: #007bff;
+  --secondary-color: #00a8cc;
+  --danger-color: #800000;
+}
+
+/* ==================== */
+/* Themes */
+/* ==================== */
+body.light {
+  background-color: var(--bg-color-light);
+  color: var(--text-color-light);
+}
+
+body.light .card,
+body.light table {
+  background-color: var(--card-bg-light);
+  color: var(--text-color-light);
+}
+
+body.dark {
+  background-color: var(--bg-color-dark);
+  color: var(--text-color-dark);
+}
+
+body.dark .card,
+body.dark table {
+  background-color: var(--card-bg-dark);
+  color: var(--text-color-dark);
+}
+
+/* ==================== */
+/* Sidebar */
+/* ==================== */
+.sidebar {
+  width: 220px;
+  background: #1a1a2e;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  position: fixed;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  overflow-y: auto;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.sidebar #toggle-btn {
+  background: #333366;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  margin: 10px auto;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 46px;
+  display: block;
+  transition: all 0.3s ease;
+}
+.sidebar #toggle-btn:hover {
+  background: var(--secondary-color);
+}
+
+/* Sidebar menu */
+.sidebar ul {
+  list-style: none;
+  flex: 1;
+  margin-top: 5px;
+}
+
+.sidebar ul li {
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.sidebar ul li a i {
+  font-size: 18px;
+  width: 22px;
+  text-align: center;
+}
+
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
+  background: var(--secondary-color);
+}
+
+/* logout */
+.sidebar .logout {
+  margin-top: auto;
+  background: var(--danger-color);
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* ==================== */
+/* Collapsed Sidebar */
+/* ==================== */
+.sidebar.collapsed {
+  width: 70px;
+}
+.sidebar.collapsed h2 {
+  display: none;
+}
+.sidebar.collapsed ul li a span {
+  display: none;
+}
+.sidebar.collapsed ul li a {
+  justify-content: center;
+}
+
+/* Sidebar tooltips */
+.sidebar ul li a::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 80px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.sidebar.collapsed ul li a:hover::after {
+  display: block;
+  opacity: 1;
+}
+
+/* ==================== */
+/* Main content */
+/* ==================== */
+.main {
+  flex: 1;
+  padding: 20px;
+  background: var(--bg-color-light);
+  overflow-x: auto;
+  margin-left: 220px;
+  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+}
+
+.sidebar.collapsed ~ .main {
+  margin-left: 70px;
+}
+
+/* ==================== */
+/* Topbar */
+/* ==================== */
+.topbar {
+  background: #333366;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.topbar h2 {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+/* ==================== */
+/* Theme toggle button */
+/* ==================== */
+.theme-toggle-wrapper {
+  display: inline-block;
+  width: 56px;
+  height: 30px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 3px;
+  transition: background 0.3s ease;
+}
+
+.theme-toggle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+}
+
+.theme-toggle .circle {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.25s ease, background 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Dark mode circle position */
+body.dark .theme-toggle-wrapper {
+  background: rgba(255, 255, 255, 0.06);
+}
+body.dark .theme-toggle .circle {
+  transform: translateX(26px);
+}
+
+/* ==================== */
+/* Section switching */
+/* ==================== */
+.section {
+  display: none;
+}
+.section.active {
+  display: block;
+}
+
+/* ==================== */
+/* Cards */
+/* ==================== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #1a1a2e;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* ==================== */
+/* Tables */
+/* ==================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table th,
+table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+table th {
+  background: #333366;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+table tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+#ticketsTable form {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+/* Buttons */
+button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Selects */
+select {
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+}
+
+/* ==================== */
+/* Reports Chart */
+/* ==================== */
+#reportsSection canvas {
+  width: 100% !important;
+  max-height: 400px;
+  margin-top: 20px;
+  border-radius: 8px;
+  background-color: var(--card-bg-light);
+}
+
+/* ==================== */
+/* Dark theme adjustments */
+/* ==================== */
+body.dark .card,
+body.dark table,
+body.dark select,
+body.dark button,
+body.dark #reportsSection canvas {
+  background-color: var(--card-bg-dark);
+  color: var(--text-color-dark);
+  border-color: #555;
+}
+
+body.dark button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* ==================== */
+/* Responsive adjustments */
+/* ==================== */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -240px;
+    top: 0;
+    height: 100%;
+    transition: left 0.3s ease;
+  }
+  .sidebar.active {
+    left: 0;
+  }
+  .main {
+    margin-left: 0;
+  }
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  #toggle-btn {
+    position: absolute;
+    top: 10px;
+    right: -50px;
+    background: #007bff;
+    border-radius: 0 5px 5px 0;
+  }
+  body.no-scroll {
+    overflow: hidden;
+  }
+}
+.text-green { color: #28a745; font-weight: 600; }
+.text-red { color: #dc3545; font-weight: 600; }
